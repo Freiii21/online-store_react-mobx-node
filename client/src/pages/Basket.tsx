@@ -1,9 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export const Basket: React.FC = () => {
-    return (
-        <div>
-            Basket
-        </div>
-    );
+	return <div>Basket</div>;
 };
