@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "utils/constants";
 import { login, registration } from "http/useAPI";
+import { observer } from "mobx-react";
+import { AppContext } from "index";
+import { AppContextType, UserType } from "types";
 
-export const Auth: React.FC = () => {
+export const Auth: React.FC = observer(() => {
+	const { user } = useContext(AppContext) as AppContextType;
 	const location = useLocation();
+	const navigate = useNavigate();
 	const isLogin = location.pathname === ROUTES.LOGIN;
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
 	const onAuthorizationClick = async () => {
-		if (isLogin) {
-			const response = await login(email, password);
-		} else {
-			const response = await registration(email, password);
+		try {
+			let data: UserType;
+			if (isLogin) {
+				data = await login(email, password);
+			} else {
+				data = await registration(email, password);
+			}
+			user.setUser(data);
+			user.setIsAuth(true);
+			navigate(ROUTES.SHOP);
+		} catch (error: any) {
+			alert(error.response.data.message);
 		}
 	};
 
@@ -35,7 +48,7 @@ export const Auth: React.FC = () => {
 						className="mt-3"
 						value={password}
 						onChange={(e) => setPassword(e.currentTarget.value)}
-						type={password}
+						type="password"
 					/>
 					<div className="d-flex justify-content-between mt-3">
 						{isLogin ? (
@@ -51,4 +64,4 @@ export const Auth: React.FC = () => {
 			</Card>
 		</Container>
 	);
-};
+});

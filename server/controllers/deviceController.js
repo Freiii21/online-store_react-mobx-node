@@ -25,6 +25,7 @@ class DeviceController{
 
             return res.json(device);
         } catch (e){
+            console.log("failed parse file")
             next(ApiError.badRequest(e.message));
         }
     };

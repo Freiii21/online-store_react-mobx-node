@@ -4,6 +4,11 @@ export type DeviceType = {
 	price: number;
 	rating: number;
 	img: string;
+	info?: any[];
+};
+export type DevicesType = {
+	count: number;
+	rows: DeviceType[];
 };
 
 export type DeviceInfoType = {

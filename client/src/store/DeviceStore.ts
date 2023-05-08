@@ -7,80 +7,19 @@ export default class DeviceStore {
 	private _devices: DeviceType[];
 	private _selectedType: TypeType;
 	private _selectedBrand: BrandType;
+	private _currentPage: number;
+	private _totalPages: number;
+	private _itemsOnPage: number;
 
 	constructor() {
-		this._types = [
-			{ id: 1, name: "Холодильники" },
-			{ id: 2, name: "Смартфоны" },
-			{ id: 3, name: "Ноутбуки" },
-			{ id: 4, name: "Телевизоры" },
-		];
-		this._brands = [
-			{ id: 1, name: "Samsung" },
-			{ id: 2, name: "Apple" },
-			{ id: 3, name: "Lenovo" },
-			{ id: 4, name: "Asus" },
-		];
-		this._devices = [
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 2,
-				name: "Iphone 12 pro_",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-			{
-				id: 1,
-				name: "Iphone 12 pro",
-				price: 25000,
-				rating: 5,
-				img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-			},
-		];
+		this._types = [];
+		this._brands = [];
+		this._devices = [];
 		this._selectedType = {} as TypeType;
 		this._selectedBrand = {} as BrandType;
+		this._currentPage = 1;
+		this._totalPages = 0;
+		this._itemsOnPage = 5;
 		makeAutoObservable(this);
 	}
 
@@ -94,10 +33,18 @@ export default class DeviceStore {
 		this._devices = devices;
 	}
 	setSelectedType(type: TypeType) {
+		this.setCurrentPage(1);
 		this._selectedType = type;
 	}
 	setSelectedBrand(brand: BrandType) {
+		this.setCurrentPage(1);
 		this._selectedBrand = brand;
+	}
+	setCurrentPage(currentPage: number) {
+		this._currentPage = currentPage;
+	}
+	setTotalPages(totalPages: number) {
+		this._totalPages = totalPages;
 	}
 
 	get types() {
@@ -114,5 +61,14 @@ export default class DeviceStore {
 	}
 	get selectedBrand() {
 		return this._selectedBrand;
+	}
+	get currentPage() {
+		return this._currentPage;
+	}
+	get totalPages() {
+		return this._totalPages;
+	}
+	get itemsOnPage() {
+		return this._itemsOnPage;
 	}
 }

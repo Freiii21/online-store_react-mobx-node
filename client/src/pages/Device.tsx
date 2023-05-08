@@ -1,28 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import bigStar from "assets/bigStar.png";
+import { useParams } from "react-router-dom";
+import { fetchOneDevice } from "http/deviceAPI";
+import { DeviceType } from "types";
 
 export const Device: React.FC = () => {
-	const device = {
-		id: 1,
-		name: "Iphone 12 pro",
-		price: 25000,
-		rating: 5,
-		img: "https://www.purposechurch.com/wp-content/uploads/2017/10/fpo400x300.png",
-	};
-	const description = [
-		{ id: 1, title: "Оперативнвя память", description: "5 гб" },
-		{ id: 2, title: "Камера", description: "12 мп" },
-		{ id: 3, title: "Процессор", description: "Пентиум 3" },
-		{ id: 4, title: "Кол-во ядер", description: "2" },
-		{ id: 5, title: "Аккумулятор", description: "4000" },
-	];
+	const [device, setDevice] = useState<DeviceType>({} as DeviceType);
+	const imageUrl = process.env.REACT_APP_API_URL + device.img;
+	const params = useParams();
+	const id = params.id as string;
+
+	useEffect(() => {
+		fetchOneDevice(id).then((data) => setDevice(data));
+	}, []);
 
 	return (
 		<Container className="mt-3">
 			<Row>
 				<Col md={4}>
-					<Image width={300} height={300} src={device.img} />
+					<Image width={300} height={300} src={imageUrl} />
 				</Col>
 				<Col md={4}>
 					<div className="d-flex flex-column align-items-center">
@@ -50,13 +47,14 @@ export const Device: React.FC = () => {
 					</Card>
 				</Col>
 			</Row>
-			<Row className="d-flex flex-column m-3">
+			<Row className="d-flex flex-column m-3 me-0">
 				<h1 className="ps-0">Характеристики:</h1>
-				{description.map((info, index) => (
-					<Row key={info.id} style={{ background: index % 2 === 0 ? "lightgray" : "", padding: 10 }}>
-						{info.title}: {info.description}
-					</Row>
-				))}
+				{device.info?.length &&
+					device.info.map((info, index) => (
+						<Row key={info.id} style={{ background: index % 2 === 0 ? "lightgray" : "", padding: 10, marginLeft: 0 }}>
+							{info.title}: {info.description}
+						</Row>
+					))}
 			</Row>
 		</Container>
 	);

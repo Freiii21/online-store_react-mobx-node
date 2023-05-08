@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { authRoutes, publicRoutes } from "routes";
 import { ROUTES } from "utils/constants";
-import { AppContext } from "App";
+import { AppContext } from "index";
 import { AppContextType } from "types";
 
 export const AppRouter: React.FC = () => {
